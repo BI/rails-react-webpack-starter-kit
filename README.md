@@ -51,6 +51,10 @@ $ foreman start
 
 The app will run on http://localhost:3000
 
+## Deploying to Amazon Elastic Beanstalk
+
+But wait, there's more: we've also included a handy .ebextensions config directory to make it easier for you to get started running your non-standard Rails+Webpack build process in Amazon Elastic Beanstalk. Just make sure you set RAILS_SKIP_ASSET_COMPILATION=true in your AWS EB Environment Properties, otherwise Rails will attempt to compile assets before the Webpack bundle is complete. 
+
 ## TODO:
 
 1. Improve console output for Foreman (Rails process output is currently obscured)
