@@ -27,3 +27,8 @@ webpack-bundle.js.map
 
 #Ignore Mac OSX DS_Store
 .DS_Store
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
