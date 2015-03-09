@@ -1,59 +1,39 @@
-//config for webpack build
-var path = require('path');
-var webpack = require('webpack');
+// Common webpack configuration used by webpack.hot.config and webpack.rails.config.
+
+var path = require("path");
 
 var config = {
-	//set context for rails asset pipeline
-	context: __dirname + '/app/assets/javascripts', //project directory
-	entry: [
-		'webpack-dev-server/client?http://localhost:8030', //webpack dev server
-		'webpack/hot/only-dev-server',
-		'./entry.js' //app entry point from context
-	]
+  context: __dirname, // the project dir
+  entry: [ "./app/assets/javascripts/entry.js" ],
+  // entry: [ "./app/assets/javascripts/components/QueryBuilder/QueryPage.js.jsx" ],
+  //entry: [ "./webpack/assets/javascripts/components/QueryBuilder/QueryPage.js.jsx" ],
+  // In case you wanted to load jQuery from the CDN, this is how you would do it:
+  externals: {
+    // react: 'React'
+  },
+  resolve: {
+    root: [path.join(__dirname, "scripts"),
+           path.join(__dirname, "app", "assets", "javascripts"),
+           path.join(__dirname, "app", "assets", "stylesheets"),
+           path.join(__dirname, "node_modules")],
+    extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".js.jsx", ".scss", ".css", "config.js"]
+  },
+  module: {
+    loaders: [
+      //{ test: /\.jsx$/, loaders: ["es6", "jsx?harmony"] },
+      { test: /\.jsx?$/, loader: "jsx?harmony" },
+      // Next 2 lines expose jQuery and $ to any JavaScript files loaded after webpack-bundle.js
+      // in the Rails Asset Pipeline. Thus, load this one prior.
+      //{ test: require.resolve("jquery"), loader: "expose?jQuery" },
+      //{ test: require.resolve("jquery"), loader: "expose?$" }
+    ]
+  },
+
+  output: { 
+    filename: "webpack-bundle.js",
+    path: path.join(__dirname, "app", "assets", "javascripts")
+  },
 };
-
-//add transpiler for jsx
-config.module = {
-	loaders: [
-		//load jsx hot
-		{ test: /\.jsx?$/, loaders:  ['react-hot', 'jsx-loader?harmony'], exclude: /node_modules/ } 
-	]
-};
-
-//output our bundle to the path where sprockets pipeline will include it
-config.output = {
-	path: path.join(__dirname, 'app', 'assets', 'javascripts'),
-	filename: 'webpack-bundle.js',
-	publicPath: 'http://localhost:8030/assets',
-	//make source path nicer
-	devtoolModuleFilenameTemplate: '[resourcePath]',
-	devtoolFallbackModuleFilenameTemplate: '[resourcePath]?[hash]'
-};
-
-//where to get modules to resolve
-config.resolve = {
-    extensions: ["", ".js", ".jsx"]
-};
-
-//make plugins like jquery available to all modules
-config.plugins = [
-	new webpack.HotModuleReplacementPlugin(),
-	new webpack.NoErrorsPlugin(),
-	new webpack.ProvidePlugin({
-		$: 'jquery',
-		jQuery: 'jquery'
-	})
-];
-
-if (process.env.NODE_ENV === 'development') {
-	config.devtool = 'source-map';
-	config.entry = [
-		'webpack-dev-server/client?http://localhost:8030', //webpack dev server
-		'webpack/hot/only-dev-server',
-		'./entry.js' //app entry point from context
-	];
-} else {
-	config.entry = './entry.js';
-}
 
 module.exports = config;
+
