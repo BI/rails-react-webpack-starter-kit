@@ -1,6 +1,13 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # In Development send *wp-bundle.js to the webpack-dev-server running on 8080
+  # dont serve this asset like this in Production
+  config.action_controller.asset_host = Proc.new { |source|
+    if source =~ /webpack-bundle\.js$/i
+      "http://localhost:8030"
+    end
+  }
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
