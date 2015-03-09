@@ -2,10 +2,9 @@
 var path = require('path');
 var webpack = require('webpack');
 
-var config = module.exports = {
+var config = {
 	//set context for rails asset pipeline
 	context: __dirname + '/app/assets/javascripts', //project directory
-	devtool: 'source-map',
 	entry: [
 		'webpack-dev-server/client?http://localhost:8030', //webpack dev server
 		'webpack/hot/only-dev-server',
@@ -45,3 +44,16 @@ config.plugins = [
 		jQuery: 'jquery'
 	})
 ];
+
+if (process.env.NODE_ENV === 'development') {
+	config.devtool = 'source-map';
+	config.entry = [
+		'webpack-dev-server/client?http://localhost:8030', //webpack dev server
+		'webpack/hot/only-dev-server',
+		'./entry.js' //app entry point from context
+	];
+} else {
+	config.entry = './entry.js';
+}
+
+module.exports = config;
