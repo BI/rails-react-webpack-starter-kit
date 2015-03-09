@@ -43,7 +43,9 @@ $ webpack
 
 ### Run The Server
 
-Use foreman to start the webpack development server along with the rails server.
+This starter kit includes support for hotloading of edits to your Webpack built javascript assets. 
+
+We use foreman to start the webpack development server along with the rails server.
 
 ```
 $ foreman start
@@ -54,6 +56,10 @@ The app will run on http://localhost:3000
 ## Deploying to Amazon Elastic Beanstalk
 
 But wait, there's more: we've also included a handy .ebextensions config directory to make it easier for you to get started running your non-standard Rails+Webpack build process in Amazon Elastic Beanstalk. Just make sure you set RAILS_SKIP_ASSET_COMPILATION=true in your AWS EB Environment Properties, otherwise Rails will attempt to compile assets before the Webpack bundle is complete. 
+
+### Elastic Beanstalk References
+* [EB CLI 3 Documentation](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html)
+* [Rails Apps on EB](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_Ruby_rails.html)
 
 ## TODO:
 
